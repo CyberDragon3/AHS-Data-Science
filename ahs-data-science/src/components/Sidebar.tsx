@@ -1,36 +1,59 @@
-import React from "react";
+import React from 'react';
+import styles from './Sidebar.module.css';
 
 interface SidebarProps {
-    activeMenu: string;
-    setActiveMenu: (menu: string) => void;
+  darkMode: boolean;
+  activePage: string;
+  setActivePage: (page: string) => void;
+  toggleDarkMode: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activeMenu, setActiveMenu }) => {
-    const menuItems = ["dashboard", "profile", "settings"];
+const Sidebar: React.FC<SidebarProps> = ({ darkMode, activePage, setActivePage, toggleDarkMode }) => {
+  const menuItems = ['Dashboard', 'Analytics', 'Reports', 'Settings'];
 
-    return (
-        <div className="w-64 bg-indigo-700 text-white">
-            <div className="p-6">
-                <h1 className="text-2xl font-bold">AHS Data Science Club</h1>
-                </div>
-                <nav className="mt-6">
-                <ul>
-                    {menuItems.map(item => ( // Fixed syntax here
-                        <li key={item} className="mb-2">
-                            <button 
-                                className={`w-full text-left px-6 py-3 ${
-                                    activeMenu === item ? "bg-indigo-800 border-l-4 border white" : "hover:bg-gray-100"
-                                }`}
-                                onClick={() => setActiveMenu(item)}
-                            >
-                                {item.charAt(0).toUpperCase() + item.slice(1)}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        </div> // Closing the main div
-    );
+  return (
+    <div className={`${styles.sidebar} ${darkMode ? styles.dark : ''}`} style={{ display: 'flex', flexDirection: 'column', height: '100vh', justifyContent: 'space-between', padding: '20px 0' }}>
+      <div>
+        <h2 style={{ marginBottom: '40px', textAlign: 'center' }}>AHS Data Science</h2>
+        <nav>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {menuItems.map((item) => (
+              <li 
+                key={item.toLowerCase()} 
+                className={activePage === item.toLowerCase() ? styles.active : ''}
+                onClick={() => setActivePage(item.toLowerCase())}
+                style={{ 
+                  padding: '12px 15px', 
+                  marginBottom: '10px', 
+                  cursor: 'pointer',
+                  borderRadius: '8px',
+                  transition: 'background-color 0.3s ease'
+                }}
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+      <button 
+        onClick={toggleDarkMode} 
+        className={styles.modeToggle}
+        style={{
+          padding: '10px',
+          backgroundColor: darkMode ? '#2c3e50' : '#34495e',
+          color: '#ffffff',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s ease',
+          marginTop: '20px'
+        }}
+      >
+        Switch to {darkMode ? 'Light' : 'Dark'} Mode
+      </button>
+    </div>
+  );
 };
 
-export default Sidebar; // Don't forget to export your component!
+export default Sidebar;
