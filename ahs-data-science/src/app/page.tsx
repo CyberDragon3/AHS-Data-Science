@@ -1,7 +1,7 @@
 'use client';
 
+import React from 'react';
 import { useState, useEffect } from 'react';
-
 import Sidebar from '../components/Sidebar';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Brush, Label } from 'recharts';
 import styles from './Page.module.css';
