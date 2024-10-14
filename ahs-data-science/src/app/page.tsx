@@ -49,17 +49,23 @@ const calculateMovingAverage = (data: ChartDataType[]) => {
   });
 };
 
-// Custom tooltip component for the chart
-const CustomTooltip: React.FC<any> = ({ active, payload, label }: {
+interface CustomTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: Array<{
+    name: string; // Name of the data series 
+    value: number | null; // Value of the data series
+    color: string; // Color of the data series
+  }>;
   label?: string;
-}) => {
+}
+
+// Custom tooltip component for the chart
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className={styles.customTooltip}>
+      <div className={styles.customTooltip} style={{ backgroundColor: 'white', border: '1px solid #ccc', padding: '10px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', textAlign: 'center' }}>
         <p className={styles.label}>{`Month: ${label}`}</p>
-        {payload.map((entry: { name: string; value: number | null; color: string }, index: number) => (
+        {payload.map((entry, index) => (
           <p key={`item-${index}`} style={{ color: entry.color }}>
             {`${entry.name.charAt(0).toUpperCase() + entry.name.slice(1)}: ${entry.value !== null ? entry.value : 'N/A'}`}
           </p>
@@ -120,7 +126,7 @@ export default function Home() {
   const renderDashboard = () => (
     <>
       <h2>Welcome to the Dashboard</h2>
-      <p>Here's an overview of AHS Data Science club activities:</p>
+      <p>Here&apos;s an overview of AHS Data Science club activities:</p>
       <div className={styles.statsContainer}>
         <div className={styles.statBox}>
           <h3>Total Projects</h3>
